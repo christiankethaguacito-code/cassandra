@@ -1,9 +1,0 @@
-# Nixpacks configuration for Railway
-[phases.setup]
-nixPkgs = ["jdk17"]
-
-[phases.build]
-cmds = ["mvn clean package -DskipTests"]
-
-[phases.start]
-cmd = "java -Dserver.port=$PORT -jar target/financial-management-1.0.0.jar"
