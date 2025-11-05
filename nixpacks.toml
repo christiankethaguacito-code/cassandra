@@ -1,8 +1,6 @@
-nixpacks.toml
-
 # Nixpacks configuration for Railway
 [phases.setup]
-nixPkgs = ["...", "jdk17"]
+nixPkgs = ["jdk17"]
 
 [phases.build]
 cmds = ["mvn clean package -DskipTests"]
