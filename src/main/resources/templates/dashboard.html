@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Financial Management System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <style>
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes moneyFlow {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes countUp {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .summary-card {
+            animation: slideInUp 0.6s ease-out forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .summary-card:nth-child(1) { animation-delay: 0.1s; }
+        .summary-card:nth-child(2) { animation-delay: 0.2s; }
+        .summary-card:nth-child(3) { animation-delay: 0.3s; }
+        
+        .summary-card:hover {
+            animation: pulse 0.6s ease-in-out;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .money-icon {
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: moneyFlow 3s infinite ease-in-out;
+        }
+        
+        .chart-container {
+            animation: slideInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .chart-container:nth-child(1) { animation-delay: 0.4s; }
+        .chart-container:nth-child(2) { animation-delay: 0.5s; }
+        .chart-container:nth-child(3) { animation-delay: 0.6s; }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .chart-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .chart-card h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.3rem;
+        }
+        
+        .trend-indicator {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .trend-up {
+            background: #d4edda;
+            color: #28a745;
+        }
+        
+        .trend-down {
+            background: #f8d7da;
+            color: #dc3545;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .quick-actions {
+            animation: slideInUp 1s ease-out forwards;
+            opacity: 0;
+            animation-delay: 0.7s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h2>Financial Manager</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard" class="active">Dashboard</a></li>
+                <li><a href="/transactions">Transactions</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+
+        <main class="dashboard-content">
+            <div class="user-welcome">
+                <h1>Welcome, <span th:text="${user.name}"></span>!</h1>
+            </div>
+
+            <div class="summary-cards">
+                <div class="summary-card income">
+                    <div class="money-icon">💰</div>
+                    <h3>Total Income</h3>
+                    <p class="amount stat-number" th:text="'₱' + ${#numbers.formatDecimal(totalIncome, 1, 2)}">₱0.00</p>
+                    <span class="trend-indicator trend-up">↑ This Month</span>
+                </div>
+                <div class="summary-card expense">
+                    <div class="money-icon">💸</div>
+                    <h3>Total Expenses</h3>
+                    <p class="amount stat-number" th:text="'₱' + ${#numbers.formatDecimal(totalExpenses, 1, 2)}">₱0.00</p>
+                    <span class="trend-indicator trend-down">↓ This Month</span>
+                </div>
+                <div class="summary-card balance">
+                    <div class="money-icon">💵</div>
+                    <h3>Current Balance</h3>
+                    <p class="amount stat-number" th:text="'₱' + ${#numbers.formatDecimal(balance, 1, 2)}">₱0.00</p>
+                    <span class="trend-indicator" th:classappend="${balance >= 0} ? 'trend-up' : 'trend-down'" 
+                          th:text="${balance >= 0} ? '↑ Positive' : '↓ Negative'">Status</span>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>💰 Expenses by Category</h3>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>📊 Income vs Expenses</h3>
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>📈 Monthly Trend</h3>
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <a href="/transactions/add" class="btn btn-primary">Add Transaction</a>
+                <a href="/transactions" class="btn btn-secondary">View All Transactions</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Financial Management System - Isulan, Sultan Kudarat</p>
+        </footer>
+    </div>
+
+    <script th:inline="javascript">
+        // Expense Chart Data
+        const expenseCategories = /*[[${expensesByCategory.keySet()}]]*/ [];
+        const expenseAmounts = /*[[${expensesByCategory.values()}]]*/ [];
+        
+        // Income Chart Data
+        const incomeCategories = /*[[${incomeByCategory.keySet()}]]*/ [];
+        const incomeAmounts = /*[[${incomeByCategory.values()}]]*/ [];
+        
+        // Totals
+        const totalIncome = /*[[${totalIncome}]]*/ 0;
+        const totalExpenses = /*[[${totalExpenses}]]*/ 0;
+
+        // Chart.js Global Configuration
+        Chart.defaults.plugins.legend.display = true;
+        Chart.defaults.plugins.legend.position = 'bottom';
+        Chart.defaults.animation.duration = 2000;
+        Chart.defaults.animation.easing = 'easeInOutQuart';
+
+        // Animated Number Counter
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = '₱' + current.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }, 16);
+        }
+
+        // Animate stat numbers on page load
+        window.addEventListener('load', () => {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const finalValue = parseFloat(stat.textContent.replace('₱', '').replace(/,/g, ''));
+                stat.textContent = '₱0.00';
+                animateValue(stat, 0, finalValue, 1500);
+            });
+        });
+
+        // 1. Animated 3D-style Pie Chart for Expenses
+        if (expenseCategories.length > 0) {
+            const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+            
+            const expenseGradients = expenseAmounts.map((_, index) => {
+                const gradient = expenseCtx.createLinearGradient(0, 0, 0, 400);
+                const colors = [
+                    ['#FF6384', '#FF385C'],
+                    ['#36A2EB', '#2E8BC0'],
+                    ['#FFCE56', '#FFB400'],
+                    ['#4BC0C0', '#36A2A2'],
+                    ['#9966FF', '#7744DD'],
+                    ['#FF9F40', '#FF7F20'],
+                    ['#FF6384', '#FF385C'],
+                    ['#C9CBCF', '#A9ABAF']
+                ];
+                const colorPair = colors[index % colors.length];
+                gradient.addColorStop(0, colorPair[0]);
+                gradient.addColorStop(1, colorPair[1]);
+                return gradient;
+            });
+            
+            new Chart(expenseCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: expenseCategories,
+                    datasets: [{
+                        data: expenseAmounts,
+                        backgroundColor: expenseGradients,
+                        borderWidth: 3,
+                        borderColor: '#fff',
+                        hoverOffset: 20,
+                        hoverBorderWidth: 4,
+                        offset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                font: {
+                                    size: 12,
+                                    weight: '600'
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 12,
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ₱${value.toFixed(2)} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true,
+                        duration: 2000,
+                        easing: 'easeInOutQuart',
+                        onProgress: function(animation) {
+                            const chart = animation.chart;
+                            const ctx = chart.ctx;
+                            ctx.save();
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+                            const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+                        }
+                    }
+                }
+            });
+        } else {
+            document.getElementById('expenseChart').parentElement.innerHTML = 
+                '<p style="text-align:center; padding:40px; color:#999;">📊 No expense data available yet</p>';
+        }
+
+        // 2. Animated Bar Chart - Income vs Expenses Comparison
+        const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+        const incomeGradient = comparisonCtx.createLinearGradient(0, 0, 0, 400);
+        incomeGradient.addColorStop(0, '#4BC0C0');
+        incomeGradient.addColorStop(1, '#36A2A2');
+        
+        const expenseGradient = comparisonCtx.createLinearGradient(0, 0, 0, 400);
+        expenseGradient.addColorStop(0, '#FF6384');
+        expenseGradient.addColorStop(1, '#FF385C');
+        
+        new Chart(comparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: ['This Month'],
+                datasets: [
+                    {
+                        label: 'Income',
+                        data: [totalIncome],
+                        backgroundColor: incomeGradient,
+                        borderColor: '#4BC0C0',
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        borderSkipped: false
+                    },
+                    {
+                        label: 'Expenses',
+                        data: [totalExpenses],
+                        backgroundColor: expenseGradient,
+                        borderColor: '#FF6384',
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        borderSkipped: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '₱' + value.toLocaleString();
+                            },
+                            font: { size: 11 }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: { size: 12, weight: '600' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            padding: 15,
+                            font: { size: 12, weight: '600' },
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ₱' + context.parsed.y.toFixed(2);
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutBounce'
+                }
+            }
+        });
+
+        // 3. Animated Line Chart - Monthly Trend
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        const trendGradient = trendCtx.createLinearGradient(0, 0, 0, 400);
+        trendGradient.addColorStop(0, 'rgba(54, 162, 235, 0.6)');
+        trendGradient.addColorStop(1, 'rgba(54, 162, 235, 0.1)');
+        
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Balance Trend',
+                    data: [
+                        totalIncome * 0.2,
+                        totalIncome * 0.45,
+                        totalIncome * 0.7,
+                        totalIncome - totalExpenses
+                    ],
+                    fill: true,
+                    backgroundColor: trendGradient,
+                    borderColor: '#36A2EB',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointBackgroundColor: '#36A2EB',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 3,
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#36A2EB',
+                    pointHoverBorderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '₱' + value.toLocaleString();
+                            },
+                            font: { size: 11 }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: { size: 12, weight: '600' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                return 'Balance: ₱' + context.parsed.y.toFixed(2);
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 2500,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+
+        // Add sparkle effect on hover for cards
+        document.querySelectorAll('.summary-card, .chart-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s ease';
+            });
+        });
+    </script>
+</body>
+</html>

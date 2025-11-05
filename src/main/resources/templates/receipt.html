@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Receipt</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .receipt-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .receipt-header h1 {
+            color: #4CAF50;
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .receipt-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .receipt-info p {
+            margin: 5px 0;
+        }
+
+        .receipt-info strong {
+            color: #333;
+        }
+
+        .receipt-section {
+            margin-bottom: 30px;
+        }
+
+        .receipt-section h2 {
+            color: #4CAF50;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .receipt-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .receipt-table td:first-child {
+            font-weight: bold;
+            color: #555;
+            width: 30%;
+        }
+
+        .amount-highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .amount-expense {
+            color: #f44336;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-print {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background-color: #0b7dda;
+        }
+
+        .btn-pdf {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-pdf:hover {
+            background-color: #da190b;
+        }
+
+        .btn-back {
+            background-color: #666;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #444;
+        }
+
+        @media print {
+            .button-group,
+            .navbar,
+            .no-print {
+                display: none !important;
+            }
+
+            .receipt-container {
+                box-shadow: none;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .receipt-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .receipt-info {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar no-print">
+        <div class="container">
+            <div class="nav-brand">Financial Manager</div>
+            <div class="nav-links">
+                <a th:href="@{/dashboard}">Dashboard</a>
+                <a th:href="@{/transactions}" class="active">Transactions</a>
+                <a th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="receipt-container">
+        <!-- Receipt Header -->
+        <div class="receipt-header">
+            <h1>📄 TRANSACTION RECEIPT</h1>
+            <p style="margin-top: 10px; color: #666;">Personal Financial Management System</p>
+        </div>
+
+        <!-- Receipt Information -->
+        <div class="receipt-info">
+            <div>
+                <p><strong>Receipt Number:</strong></p>
+                <p th:text="${receiptNumber}">RCP-001</p>
+            </div>
+            <div>
+                <p><strong>Generated:</strong></p>
+                <p th:text="${#temporals.format(currentDate, 'MMM dd, yyyy HH:mm:ss')}">Jan 01, 2024 12:00:00</p>
+            </div>
+        </div>
+
+        <!-- User Information -->
+        <div class="receipt-section">
+            <h2>User Information</h2>
+            <table class="receipt-table">
+                <tr>
+                    <td>Name:</td>
+                    <td th:text="${user.name}">John Doe</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td th:text="${user.email}">john@example.com</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Transaction Details -->
+        <div class="receipt-section">
+            <h2>Transaction Details</h2>
+            <table class="receipt-table">
+                <tr>
+                    <td>Transaction Type:</td>
+                    <td>
+                        <span th:if="${transaction.type == 'INCOME'}" 
+                              style="color: #4CAF50; font-weight: bold;">
+                            💰 INCOME
+                        </span>
+                        <span th:if="${transaction.type == 'EXPENSE'}" 
+                              style="color: #f44336; font-weight: bold;">
+                            💸 EXPENSE
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Category:</td>
+                    <td th:text="${transaction.category != null ? transaction.category : 'N/A'}">
+                        Salary
+                    </td>
+                </tr>
+                <tr>
+                    <td>Description:</td>
+                    <td th:text="${transaction.description != null ? transaction.description : 'N/A'}">
+                        Monthly salary payment
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date:</td>
+                    <td th:text="${#temporals.format(transaction.date, 'MMM dd, yyyy')}">
+                        Jan 01, 2024
+                    </td>
+                </tr>
+                <tr>
+                    <td>Amount:</td>
+                    <td>
+                        <span class="amount-highlight" 
+                              th:classappend="${transaction.type == 'EXPENSE' ? 'amount-expense' : ''}"
+                              th:text="'₱' + ${#numbers.formatDecimal(transaction.amount, 1, 2)}">
+                            ₱5,000.00
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Receipt Footer -->
+        <div class="receipt-footer">
+            <p>This is a computer-generated receipt and does not require a signature.</p>
+            <p>Thank you for using Personal Financial Management System!</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group no-print">
+            <button onclick="window.print()" class="btn btn-print">
+                🖨️ Print Receipt
+            </button>
+            <a th:href="@{'/transactions/receipt/' + ${transaction.id} + '/pdf'}" 
+               class="btn btn-pdf">
+                📥 Download PDF
+            </a>
+            <a th:href="@{/transactions}" class="btn btn-back">
+                ← Back to Transactions
+            </a>
+        </div>
+    </div>
+</body>
+</html>

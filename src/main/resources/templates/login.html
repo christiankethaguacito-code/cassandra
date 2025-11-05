@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Financial Management System</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Login</h1>
+            <p>Access Your Financial Dashboard</p>
+        </header>
+
+        <main class="auth-content">
+            <div class="auth-form">
+                <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+                <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+                <form action="/perform-login" method="post">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+                <p class="auth-link">Don't have an account? <a href="/register">Register here</a></p>
+                <p class="auth-link"><a href="/">Back to Home</a></p>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Financial Management System - Isulan, Sultan Kudarat</p>
+        </footer>
+    </div>
+</body>
+</html>
