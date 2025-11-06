@@ -6,74 +6,184 @@ import com.isulan.financial.service.UserService;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Profile Panel for Desktop Application
- * Manages user profile and settings
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
 public class ProfilePanel extends JPanel {
 
-    private JTextField nameField;
-    private JTextField emailField;
     private JPasswordField currentPasswordField;
     private JPasswordField newPasswordField;
-    private JPasswordField confirmPasswordField;
 
-    /**
-     * Constructor - Creates the profile panel
-     * 
-     * @param mainFrame Reference to main frame (for future use)
-     */
+    
     public ProfilePanel(MainFrame mainFrame) {
         initComponents();
         refreshData();
     }
 
-    /**
-     * Initialize GUI components
-     */
+    
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        setLayout(new BorderLayout(10, 10));
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        setBackground(Color.WHITE);
 
-        // Top panel with title
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.WHITE);
-        
-        JLabel titleLabel = new JLabel("My Profile");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(new Color(102, 126, 234));
-        topPanel.add(titleLabel, BorderLayout.WEST);
+        titlePanel = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        profileCard = new javax.swing.JPanel();
+        nameLabel = new javax.swing.JLabel();
+        nameField = new javax.swing.JTextField();
+        emailLabel = new javax.swing.JLabel();
+        emailField = new javax.swing.JTextField();
+        passwordLabel = new javax.swing.JLabel();
+        passwordField = new javax.swing.JPasswordField();
+        confirmPasswordLabel = new javax.swing.JLabel();
+        confirmPasswordField = new javax.swing.JPasswordField();
+        statusLabel = new javax.swing.JLabel();
+        buttonPanel = new javax.swing.JPanel();
+        updateButton = new javax.swing.JButton();
 
-        add(topPanel, BorderLayout.NORTH);
+        setBackground(new java.awt.Color(240, 242, 245));
 
-        // Main content panel
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBackground(Color.WHITE);
+        titlePanel.setBackground(new java.awt.Color(240, 242, 245));
+        titlePanel.setOpaque(true);
 
-        // Profile Information Section
-        JPanel profileSection = createProfileSection();
-        contentPanel.add(profileSection);
-        contentPanel.add(Box.createVerticalStrut(30));
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(102, 126, 234));
+        titleLabel.setText("👤 User Profile");
 
-        // Change Password Section
-        JPanel passwordSection = createPasswordSection();
-        contentPanel.add(passwordSection);
+        javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
+        titlePanel.setLayout(titlePanelLayout);
+        titlePanelLayout.setHorizontalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        titlePanelLayout.setVerticalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
-        JScrollPane scrollPane = new JScrollPane(contentPanel);
-        scrollPane.setBorder(null);
-        add(scrollPane, BorderLayout.CENTER);
-    }
+        profileCard.setBackground(new java.awt.Color(255, 255, 255));
+        profileCard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 230, 230)));
 
-    /**
-     * Create profile information section
-     * 
-     * @return JPanel for profile section
-     */
+        nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        nameLabel.setText("Full Name:");
+
+        nameField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        emailLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        emailLabel.setText("Email:");
+
+        emailField.setEditable(false);
+        emailField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        emailField.setForeground(new java.awt.Color(150, 150, 150));
+
+        passwordLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        passwordLabel.setText("New Password (leave blank to keep current):");
+
+        passwordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        confirmPasswordLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        confirmPasswordLabel.setText("Confirm New Password:");
+
+        confirmPasswordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        statusLabel.setForeground(new java.awt.Color(255, 0, 0));
+        statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        statusLabel.setText(" ");
+
+        javax.swing.GroupLayout profileCardLayout = new javax.swing.GroupLayout(profileCard);
+        profileCard.setLayout(profileCardLayout);
+        profileCardLayout.setHorizontalGroup(
+            profileCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(profileCardLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(profileCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nameLabel)
+                    .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                    .addComponent(emailLabel)
+                    .addComponent(emailField)
+                    .addComponent(passwordLabel)
+                    .addComponent(passwordField)
+                    .addComponent(confirmPasswordLabel)
+                    .addComponent(confirmPasswordField)
+                    .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(40, 40, 40))
+        );
+        profileCardLayout.setVerticalGroup(
+            profileCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(profileCardLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(nameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(emailLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(passwordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(confirmPasswordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(confirmPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(statusLabel)
+                .addGap(30, 30, 30))
+        );
+
+        buttonPanel.setBackground(new java.awt.Color(255, 255, 255));
+        buttonPanel.setOpaque(false);
+
+        updateButton.setBackground(new java.awt.Color(102, 126, 234));
+        updateButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        updateButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton.setText("💾 Update Profile");
+        updateButton.setOpaque(true);
+        updateButton.setBorderPainted(false);
+        updateButton.setFocusPainted(false);
+
+        buttonPanel.setBackground(new java.awt.Color(240, 242, 245));
+
+        javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
+        buttonPanel.setLayout(buttonPanelLayout);
+        buttonPanelLayout.setHorizontalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(200, 200, 200))
+        );
+        buttonPanelLayout.setVerticalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(titlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(profileCard, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(profileCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    
     private JPanel createProfileSection() {
         JPanel section = new JPanel();
         section.setLayout(new BoxLayout(section, BoxLayout.Y_AXIS));
@@ -92,8 +202,6 @@ public class ProfilePanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
-
-        // Name
         gbc.gridx = 0; gbc.gridy = 0;
         JLabel nameLabel = new JLabel("Full Name:");
         nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -103,8 +211,6 @@ public class ProfilePanel extends JPanel {
         nameField = new JTextField(30);
         nameField.setFont(new Font("Arial", Font.PLAIN, 14));
         formPanel.add(nameField, gbc);
-
-        // Email
         gbc.gridx = 0; gbc.gridy = 1;
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -114,8 +220,6 @@ public class ProfilePanel extends JPanel {
         emailField = new JTextField(30);
         emailField.setFont(new Font("Arial", Font.PLAIN, 14));
         formPanel.add(emailField, gbc);
-
-        // Update button
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
         JButton updateButton = new JButton("Update Profile");
         updateButton.setBackground(new Color(102, 126, 234));
@@ -129,11 +233,7 @@ public class ProfilePanel extends JPanel {
         return section;
     }
 
-    /**
-     * Create password change section
-     * 
-     * @return JPanel for password section
-     */
+    
     private JPanel createPasswordSection() {
         JPanel section = new JPanel();
         section.setLayout(new BoxLayout(section, BoxLayout.Y_AXIS));
@@ -152,8 +252,6 @@ public class ProfilePanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
-
-        // Current password
         gbc.gridx = 0; gbc.gridy = 0;
         JLabel currentPasswordLabel = new JLabel("Current Password:");
         currentPasswordLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -163,8 +261,6 @@ public class ProfilePanel extends JPanel {
         currentPasswordField = new JPasswordField(30);
         currentPasswordField.setFont(new Font("Arial", Font.PLAIN, 14));
         formPanel.add(currentPasswordField, gbc);
-
-        // New password
         gbc.gridx = 0; gbc.gridy = 1;
         JLabel newPasswordLabel = new JLabel("New Password:");
         newPasswordLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -174,8 +270,6 @@ public class ProfilePanel extends JPanel {
         newPasswordField = new JPasswordField(30);
         newPasswordField.setFont(new Font("Arial", Font.PLAIN, 14));
         formPanel.add(newPasswordField, gbc);
-
-        // Confirm password
         gbc.gridx = 0; gbc.gridy = 2;
         JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
         confirmPasswordLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -185,8 +279,6 @@ public class ProfilePanel extends JPanel {
         confirmPasswordField = new JPasswordField(30);
         confirmPasswordField.setFont(new Font("Arial", Font.PLAIN, 14));
         formPanel.add(confirmPasswordField, gbc);
-
-        // Change password button
         gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
         JButton changePasswordButton = new JButton("Change Password");
         changePasswordButton.setBackground(new Color(108, 117, 125));
@@ -200,13 +292,10 @@ public class ProfilePanel extends JPanel {
         return section;
     }
 
-    /**
-     * Refresh profile data
-     */
+    
     public void refreshData() {
         User user = SpringContextUtil.getCurrentUser();
         if (user != null) {
-            // Refresh user from database
             UserService userService = SpringContextUtil.getUserService();
             user = userService.findById(user.getId()).orElse(user);
             SpringContextUtil.setCurrentUser(user);
@@ -216,9 +305,7 @@ public class ProfilePanel extends JPanel {
         }
     }
 
-    /**
-     * Update profile information
-     */
+    
     private void updateProfile() {
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
@@ -257,15 +344,11 @@ public class ProfilePanel extends JPanel {
         }
     }
 
-    /**
-     * Change user password
-     */
+    
     private void changePassword() {
         String currentPassword = new String(currentPasswordField.getPassword());
         String newPassword = new String(newPasswordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
-
-        // Validation
         if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Please fill all password fields",
@@ -300,8 +383,6 @@ public class ProfilePanel extends JPanel {
                     "Password changed successfully!",
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE);
-            
-            // Clear password fields
             currentPasswordField.setText("");
             newPasswordField.setText("");
             confirmPasswordField.setText("");
@@ -317,4 +398,21 @@ public class ProfilePanel extends JPanel {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JPasswordField confirmPasswordField;
+    private javax.swing.JLabel confirmPasswordLabel;
+    private javax.swing.JTextField emailField;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JPanel profileCard;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JPanel titlePanel;
+    private javax.swing.JButton updateButton;
+    // End of variables declaration//GEN-END:variables
 }

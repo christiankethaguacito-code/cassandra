@@ -124,6 +124,28 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>build-web-app</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>web</classifier>
+                            <mainClass>com.isulan.financial.FinancialManagementApplication</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-desktop-app</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>desktop</classifier>
+                            <mainClass>com.isulan.financial.desktop.DesktopApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <!-- Exec Maven Plugin for Desktop Application -->
             <plugin>

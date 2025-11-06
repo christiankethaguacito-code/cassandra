@@ -13,13 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * Custom authentication success handler
- * Stores user object in session after successful login
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -30,18 +23,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, 
                                        HttpServletResponse response,
                                        Authentication authentication) throws IOException, ServletException {
-        // Get the authenticated user's email
         String email = authentication.getName();
-        
-        // Load full user object from database
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        
-        // Store user in session
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        
-        // Redirect to dashboard
         response.sendRedirect("/dashboard");
     }
 }

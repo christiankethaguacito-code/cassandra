@@ -3,13 +3,6 @@ package com.isulan.financial.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-/**
- * Transaction Entity representing financial transactions
- * Stores income and expense records for users
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
 @Entity
 @Table(name = "transactions")
 public class Transaction {
@@ -35,24 +28,10 @@ public class Transaction {
     @Column(nullable = false)
     private LocalDate date;
 
-    /**
-     * Default constructor
-     */
     public Transaction() {
     }
 
-    /**
-     * Constructor with all transaction details
-     * 
-     * @param user User who owns this transaction
-     * @param type Type of transaction (INCOME or EXPENSE)
-     * @param category Category of the transaction
-     * @param description Description of the transaction
-     * @param amount Amount of money
-     * @param date Date of the transaction
-     */
-    public Transaction(User user, String type, String category, String description, 
-                      Double amount, LocalDate date) {
+    public Transaction(User user, String type, String category, String description, Double amount, LocalDate date) {
         this.user = user;
         this.type = type;
         this.category = category;
@@ -60,8 +39,6 @@ public class Transaction {
         this.amount = amount;
         this.date = date;
     }
-
-    // Getters and Setters
 
     public Long getId() {
         return id;

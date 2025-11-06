@@ -4,13 +4,6 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User Entity representing application users
- * Stores user account information and profile data
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
 @Entity
 @Table(name = "users")
 public class User {
@@ -34,26 +27,14 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
 
-    /**
-     * Default constructor
-     */
     public User() {
     }
 
-    /**
-     * Constructor with basic user information
-     * 
-     * @param name User's full name
-     * @param email User's email address
-     * @param password User's encrypted password
-     */
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
-
-    // Getters and Setters
 
     public Long getId() {
         return id;

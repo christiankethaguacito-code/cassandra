@@ -3,214 +3,239 @@ package com.isulan.financial.desktop.ui;
 import com.isulan.financial.desktop.util.SpringContextUtil;
 import com.isulan.financial.model.User;
 import com.isulan.financial.service.UserService;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
-/**
- * Registration Frame for Desktop Application
- * Provides user registration interface
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
-public class RegisterFrame extends JFrame {
+public class RegisterFrame extends javax.swing.JFrame {
 
-    private JTextField nameField;
-    private JTextField emailField;
-    private JPasswordField passwordField;
-    private JPasswordField confirmPasswordField;
-    private JButton registerButton;
-    private JButton backButton;
-    private JLabel statusLabel;
     private LoginFrame loginFrame;
 
-    /**
-     * Constructor - Creates the registration frame
-     * 
-     * @param loginFrame Reference to login frame
-     */
+    
     public RegisterFrame(LoginFrame loginFrame) {
         this.loginFrame = loginFrame;
         initComponents();
-    }
-
-    /**
-     * Initialize GUI components
-     */
-    private void initComponents() {
-        setTitle("Register - Financial Management System");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(450, 450);
         setLocationRelativeTo(null);
+    }
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        mainPanel = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        formPanel = new javax.swing.JPanel();
+        nameLabel = new javax.swing.JLabel();
+        nameField = new javax.swing.JTextField();
+        emailLabel = new javax.swing.JLabel();
+        emailField = new javax.swing.JTextField();
+        passwordLabel = new javax.swing.JLabel();
+        passwordField = new javax.swing.JPasswordField();
+        confirmPasswordLabel = new javax.swing.JLabel();
+        confirmPasswordField = new javax.swing.JPasswordField();
+        statusLabel = new javax.swing.JLabel();
+        registerButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Register - Financial Management System");
         setResizable(false);
 
-        // Main panel
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
-        mainPanel.setBackground(new Color(102, 126, 234));
+        mainPanel.setBackground(new java.awt.Color(240, 147, 251));
 
-        // Title
-        JLabel titleLabel = new JLabel("Create Account");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel.setText("📝 Create Account");
 
-        // Form panel
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridBagLayout());
-        formPanel.setBackground(Color.WHITE);
-        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        formPanel.setBackground(new java.awt.Color(255, 255, 255));
+        formPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Name field
-        JLabel nameLabel = new JLabel("Full Name:");
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(nameLabel, gbc);
+        nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nameLabel.setText("Full Name:");
 
-        nameField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        formPanel.add(nameField, gbc);
+        emailLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        emailLabel.setText("Email:");
 
-        // Email field
-        JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        formPanel.add(emailLabel, gbc);
+        passwordLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        passwordLabel.setText("Password:");
 
-        emailField = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        formPanel.add(emailField, gbc);
+        confirmPasswordLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        confirmPasswordLabel.setText("Confirm Password:");
 
-        // Password field
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        formPanel.add(passwordLabel, gbc);
+        javax.swing.GroupLayout formPanelLayout = new javax.swing.GroupLayout(formPanel);
+        formPanel.setLayout(formPanelLayout);
+        formPanelLayout.setHorizontalGroup(
+            formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nameLabel)
+                    .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                    .addComponent(emailLabel)
+                    .addComponent(emailField)
+                    .addComponent(passwordLabel)
+                    .addComponent(passwordField)
+                    .addComponent(confirmPasswordLabel)
+                    .addComponent(confirmPasswordField))
+                .addContainerGap())
+        );
+        formPanelLayout.setVerticalGroup(
+            formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(emailLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(passwordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(confirmPasswordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(confirmPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
-        passwordField = new JPasswordField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        formPanel.add(passwordField, gbc);
+        statusLabel.setForeground(new java.awt.Color(255, 0, 0));
+        statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        statusLabel.setText(" ");
 
-        // Confirm password field
-        JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
-        confirmPasswordLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        formPanel.add(confirmPasswordLabel, gbc);
-
-        confirmPasswordField = new JPasswordField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        formPanel.add(confirmPasswordField, gbc);
-
-        // Status label
-        statusLabel = new JLabel(" ");
-        statusLabel.setForeground(Color.RED);
-        statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Register button
-        registerButton = new JButton("Register");
-        registerButton.setBackground(new Color(102, 126, 234));
-        registerButton.setForeground(Color.WHITE);
-        registerButton.setFont(new Font("Arial", Font.BOLD, 14));
+        registerButton.setBackground(new java.awt.Color(240, 147, 251));
+        registerButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        registerButton.setForeground(new java.awt.Color(255, 255, 255));
+        registerButton.setText("Register");
+        registerButton.setOpaque(true);
+        registerButton.setBorderPainted(false);
         registerButton.setFocusPainted(false);
-        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        registerButton.addActionListener(this::registerButtonActionPerformed);
+        registerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerButtonActionPerformed(evt);
+            }
+        });
 
-        // Back button
-        backButton = new JButton("Back to Login");
-        backButton.setBackground(new Color(108, 117, 125));
-        backButton.setForeground(Color.WHITE);
-        backButton.setFont(new Font("Arial", Font.BOLD, 14));
+        backButton.setBackground(new java.awt.Color(108, 117, 125));
+        backButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        backButton.setForeground(new java.awt.Color(255, 255, 255));
+        backButton.setText("Back to Login");
+        backButton.setOpaque(true);
+        backButton.setBorderPainted(false);
         backButton.setFocusPainted(false);
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.addActionListener(this::backButtonActionPerformed);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
-        // Add components to main panel
-        mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(titleLabel);
-        mainPanel.add(Box.createVerticalStrut(20));
-        mainPanel.add(formPanel);
-        mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(statusLabel);
-        mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(registerButton);
-        mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(backButton);
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(formPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(registerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(titleLabel)
+                .addGap(20, 20, 20)
+                .addComponent(formPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(statusLabel)
+                .addGap(10, 10, 10)
+                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+        );
 
-        add(mainPanel);
-    }
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
-    /**
-     * Handle register button click
-     * 
-     * @param evt Action event
-     */
-    private void registerButtonActionPerformed(ActionEvent evt) {
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
         String password = new String(passwordField.getPassword());
         String confirmPassword = new String(confirmPasswordField.getPassword());
-
-        // Validation
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            statusLabel.setText("Please fill all fields");
-            statusLabel.setForeground(Color.RED);
+            statusLabel.setText("Please fill in all fields");
+            statusLabel.setForeground(new java.awt.Color(255, 0, 0));
             return;
         }
 
         if (!password.equals(confirmPassword)) {
             statusLabel.setText("Passwords do not match");
-            statusLabel.setForeground(Color.RED);
+            statusLabel.setForeground(new java.awt.Color(255, 0, 0));
             return;
         }
 
         if (password.length() < 6) {
             statusLabel.setText("Password must be at least 6 characters");
-            statusLabel.setForeground(Color.RED);
+            statusLabel.setForeground(new java.awt.Color(255, 0, 0));
             return;
         }
 
         try {
             UserService userService = SpringContextUtil.getUserService();
-            userService.registerUser(name, email, password);
+            User savedUser = userService.registerUser(name, email, password);
             
-            JOptionPane.showMessageDialog(this,
-                    "Registration successful! Please login.",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
+            statusLabel.setText("Registration successful!");
+            statusLabel.setForeground(new java.awt.Color(0, 200, 0));
+            new javax.swing.Timer(1500, e -> {
+                loginFrame.setVisible(true);
+                this.dispose();
+            }).start();
             
-            // Return to login
-            loginFrame.setVisible(true);
-            this.dispose();
         } catch (IllegalArgumentException e) {
             statusLabel.setText(e.getMessage());
-            statusLabel.setForeground(Color.RED);
+            statusLabel.setForeground(new java.awt.Color(255, 0, 0));
         } catch (Exception e) {
             statusLabel.setText("Error: " + e.getMessage());
-            statusLabel.setForeground(Color.RED);
+            statusLabel.setForeground(new java.awt.Color(255, 0, 0));
             e.printStackTrace();
         }
-    }
+    }//GEN-LAST:event_registerButtonActionPerformed
 
-    /**
-     * Handle back button click
-     * 
-     * @param evt Action event
-     */
-    private void backButtonActionPerformed(ActionEvent evt) {
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         loginFrame.setVisible(true);
         this.dispose();
-    }
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backButton;
+    private javax.swing.JPasswordField confirmPasswordField;
+    private javax.swing.JLabel confirmPasswordLabel;
+    private javax.swing.JTextField emailField;
+    private javax.swing.JLabel emailLabel;
+    private javax.swing.JPanel formPanel;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JButton registerButton;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JLabel titleLabel;
+    // End of variables declaration//GEN-END:variables
 }

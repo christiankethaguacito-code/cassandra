@@ -1,405 +1,513 @@
-# Personal Financial Management System
-## Hybrid Web + Desktop Application
+# Financial Management System
 
-![Java](https://img.shields.io/badge/Java-17+-orange)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-green)
-![SQLite](https://img.shields.io/badge/SQLite-Database-blue)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+Hybrid financial management application with web and desktop interfaces sharing a single SQLite database.
 
-A comprehensive financial management system designed for residents and small business owners in **Isulan, Sultan Kudarat**. This hybrid application provides both a web-based interface and a desktop Java Swing GUI, sharing the same SQLite database for seamless offline and online access.
+## Features
+- User authentication and registration
+- Income/expense tracking with categories
+- Dashboard with charts and visualizations
+- Transaction CRUD operations
+- Profile management
+- PDF receipt generation
 
----
+## Tech Stack
+- Java 17, Spring Boot 3.2.0
+- SQLite Database, Hibernate ORM
+- Web: Thymeleaf, Chart.js, Bootstrap
+- Desktop: Java Swing, JFreeChart
+- Security: BCrypt, Spring Security
+- PDF: iText library
 
-## 📋 Table of Contents
+## Quick Start
 
-- [Features](#features)
-- [Technologies](#technologies)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Running the Application](#running-the-application)
-- [Usage Guide](#usage-guide)
-- [API Documentation](#api-documentation)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
+Requirements: Java 17+, Maven 3.8+
 
----
+### Option 1: Run from Executable JAR (Recommended)
 
-## ✨ Features
-
-### 🌐 Web Application (Spring Boot + Thymeleaf)
-- ✅ User registration and login with BCrypt encryption
-- ✅ Interactive dashboard with financial overview
-- ✅ Real-time charts using Chart.js
-- ✅ Add, edit, and delete transactions
-- ✅ Profile management (update name, email, password)
-- ✅ Responsive design for mobile and desktop
-- ✅ Spring Security for authentication
-
-### 🖥️ Desktop Application (Java Swing)
-- ✅ Native GUI with NetBeans .form files
-- ✅ Tabbed interface (Dashboard, Transactions, Profile)
-- ✅ JFreeChart for data visualization
-- ✅ Offline access to financial data
-- ✅ Same SQLite database as web version
-- ✅ Full CRUD operations for transactions
-- ✅ Profile management
-
-### 💾 Shared Features
-- ✅ SQLite database (shared between web and desktop)
-- ✅ Income and expense tracking
-- ✅ Category-based organization
-- ✅ Financial reports and analytics
-- ✅ Secure password encryption
-- ✅ MVC architecture
-- ✅ Comprehensive JavaDoc comments
-
----
-
-## 🛠️ Technologies
-
-### Backend
-- **Java 17+**
-- **Spring Boot 3.2.0**
-- **Spring Data JPA**
-- **Spring Security**
-- **SQLite Database**
-- **Hibernate**
-- **BCrypt** (password encryption)
-
-### Frontend
-#### Web
-- **Thymeleaf** (templating engine)
-- **HTML5, CSS3**
-- **Chart.js** (data visualization)
-- **Responsive CSS**
-
-#### Desktop
-- **Java Swing**
-- **NetBeans GUI Builder**
-- **JFreeChart** (charts)
-
-### Build Tool
-- **Maven 3.8+**
-
----
-
-## 📁 Project Structure
-
-```
-NEWBUSINESS/
-├── pom.xml                                 # Maven configuration
-├── README.md                               # This file
-├── financial_management.db                 # SQLite database (auto-generated)
-└── src/
-    └── main/
-        ├── java/com/isulan/financial/
-        │   ├── FinancialManagementApplication.java    # Main Spring Boot app
-        │   ├── config/
-        │   │   └── SecurityConfig.java                 # Spring Security config
-        │   ├── model/
-        │   │   ├── User.java                          # User entity
-        │   │   └── Transaction.java                   # Transaction entity
-        │   ├── repository/
-        │   │   ├── UserRepository.java                # User data access
-        │   │   └── TransactionRepository.java         # Transaction data access
-        │   ├── service/
-        │   │   ├── UserService.java                   # User business logic
-        │   │   └── TransactionService.java            # Transaction business logic
-        │   ├── controller/
-        │   │   ├── AuthController.java                # Login/Register
-        │   │   ├── DashboardController.java           # Dashboard
-        │   │   ├── TransactionController.java         # Transactions
-        │   │   └── ProfileController.java             # Profile
-        │   └── desktop/
-        │       ├── DesktopApplication.java            # Desktop launcher
-        │       ├── util/
-        │       │   └── SpringContextUtil.java         # Spring context for Swing
-        │       └── ui/
-        │           ├── LoginFrame.java + .form        # Login GUI
-        │           ├── RegisterFrame.java + .form     # Registration GUI
-        │           ├── MainFrame.java + .form         # Main window
-        │           ├── DashboardPanel.java            # Dashboard tab
-        │           ├── TransactionsPanel.java         # Transactions tab
-        │           └── ProfilePanel.java              # Profile tab
-        └── resources/
-            ├── application.properties                 # App configuration
-            ├── static/css/
-            │   └── style.css                          # Web styles
-            └── templates/
-                ├── index.html                         # Home page
-                ├── login.html                         # Login page
-                ├── register.html                      # Registration page
-                ├── dashboard.html                     # Dashboard
-                ├── transactions.html                  # Transactions list
-                ├── add-transaction.html               # Add transaction
-                ├── edit-transaction.html              # Edit transaction
-                └── profile.html                       # Profile page
+**Build the executables first:**
+```bash
+mvn clean package -DskipTests
 ```
 
----
+**Run Desktop Application:**
+```bash
+# Easiest way - Double-click this file:
+Launch-Desktop-App.bat
 
-## 🚀 Getting Started
+# Or use command line:
+.\run-desktop-app.bat
 
-### Prerequisites
+# Or run JAR directly (will show console):
+java -jar target\financial-management-1.0.0-desktop.jar
 
-1. **Java Development Kit (JDK) 17 or higher**
-   ```bash
-   java -version
-   ```
+# Or run without console window:
+javaw -jar target\financial-management-1.0.0-desktop.jar
+```
 
-2. **Maven 3.8+**
-   ```bash
-   mvn -version
-   ```
+**Run Web Application:**
+```bash
+.\run-web-app.bat
+# Or directly: java -jar target\financial-management-1.0.0-web.jar
+```
+Access: http://localhost:8080
 
-3. **NetBeans IDE** (recommended for editing Swing .form files)
-   - Download from: https://netbeans.apache.org/
+**Important Notes:**
+- First startup takes 5-10 seconds (Spring Boot initialization)
+- Desktop app will open login window after initialization
+- Make sure Java 17+ is installed: `java -version`
+- If double-clicking JAR doesn't work, use the .bat launcher files
 
-### Installation
+### Option 2: Run from Source
 
-1. **Clone or extract the project**
-   ```bash
-   cd C:\Users\USER\OneDrive\Desktop\NEWBUSINESS
-   ```
-
-2. **Build the project**
-   ```bash
-   mvn clean install
-   ```
-
-3. **The SQLite database will be created automatically** on first run
-   - Database file: `financial_management.db` (in project root)
-
----
-
-## 🎯 Running the Application
-
-### Option 1: Run Web Application
-
+**Web Application:**
 ```bash
 mvn spring-boot:run
 ```
 
-Then open your browser to: **http://localhost:8080**
-
-### Option 2: Run Desktop Application
-
-#### Using Maven:
+**Desktop Application:**
 ```bash
-mvn exec:java -Dexec.mainClass="com.isulan.financial.desktop.DesktopApplication"
+.\Launch-Desktop-App.bat
+cd C:\Users\USER\OneDrive\Desktop\NEWBUSINESS; SPRING_OUTPUT_ANSI_ENABLED=always "JAVA_HOME=C:\\Program Files\\Apache NetBeans\\jdk" cmd /c "\"C:\\Program Files\\Apache NetBeans\\java\\maven\\bin\\mvn.cmd\" \"-Drun.jvmArguments=-noverify -XX:TieredStopAtLevel=1\" -Drun.mainClass=com.isulan.financial.FinancialManagementApplication -Dexec.vmArgs= -Dexec.appArgs= \"-Dmaven.ext.class.path=C:\\Program Files\\Apache NetBeans\\java\\maven-nblib\\netbeans-eventspy.jar\" --no-transfer-progress spring-boot:run"
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C:/Program%20Files/Apache%20NetBeans/java/maven/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+Scanning for projects...
+
+------------------< com.isulan:financial-management >-------------------
+Building Personal Financial Management System 1.0.0
+  from pom.xml
+--------------------------------[ jar ]---------------------------------
+
+>>> spring-boot:3.2.0:run (default-cli) > test-compile @ financial-management >>>
+
+--- resources:3.3.1:resources (default-resources) @ financial-management ---
+Copying 2 resources from src\main\resources to target\classes
+Copying 10 resources from src\main\resources to target\classes
+
+--- compiler:3.11.0:compile (default-compile) @ financial-management ---
+Changes detected - recompiling the module! :source
+Compiling 24 source files with javac [debug release 17] to target\classes
+/C:/Users/USER/OneDrive/Desktop/NEWBUSINESS/src/main/java/com/isulan/financial/desktop/ui/DashboardPanel.java: C:\Users\USER\OneDrive\Desktop\NEWBUSINESS\src\main\java\com\isulan\financial\desktop\ui\DashboardPanel.java uses or overrides a deprecated API.
+/C:/Users/USER/OneDrive/Desktop/NEWBUSINESS/src/main/java/com/isulan/financial/desktop/ui/DashboardPanel.java: Recompile with -Xlint:deprecation for details.
+-------------------------------------------------------------
+COMPILATION ERROR : 
+-------------------------------------------------------------
+com/isulan/financial/desktop/ui/DashboardPanel.java:[498,32] variable chartPanel is already defined in class com.isulan.financial.desktop.ui.DashboardPanel
+1 error
+-------------------------------------------------------------
+------------------------------------------------------------------------
+BUILD FAILURE
+------------------------------------------------------------------------
+Total time:  3.019 s
+Finished at: 2025-11-06T10:49:32+08:00
+------------------------------------------------------------------------
+Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project financial-management: Compilation failure
+com/isulan/financial/desktop/ui/DashboardPanel.java:[498,32] variable chartPanel is already defined in class com.isulan.financial.desktop.ui.DashboardPanel
+
+-> [Help 1]
+
+To see the full stack trace of the errors, re-run Maven with the -e switch.
+Re-run Maven using the -X switch to enable full debug logging.
+
+For more information about the errors and possible solutions, please read the following articles:
+[Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
 ```
 
-#### Using NetBeans:
-1. Open project in NetBeans
-2. Right-click on `DesktopApplication.java`
-3. Select **Run File**
-
-#### Using JAR (after building):
+### Build Executables
 ```bash
-java -cp target/financial-management-1.0.0.jar com.isulan.financial.desktop.DesktopApplication
+mvn clean package -DskipTests
 ```
+This creates:
+- `target\financial-management-1.0.0-web.jar` (Web application)
+- `target\financial-management-1.0.0-desktop.jar` (Desktop application)
+- Both are fully executable with all dependencies included
 
-### Option 3: Run Both Simultaneously
+## How to Use
 
-**Terminal 1 (Web):**
-```bash
-mvn spring-boot:run
-```
+### Web Application Usage
 
-**Terminal 2 (Desktop):**
-```bash
-mvn exec:java -Dexec.mainClass="com.isulan.financial.desktop.DesktopApplication"
-```
+1. **Registration**
+   - Navigate to http://localhost:8080
+   - Click "Register" link
+   - Enter name, email, and password (min 6 characters)
+   - Submit to create account
 
-Both applications will share the same SQLite database!
+2. **Login**
+   - Enter registered email and password
+   - Click "Login" to access dashboard
 
----
+3. **Dashboard**
+   - View total income, expenses, and balance
+   - See pie charts for income/expense breakdown by category
+   - Overview of recent transactions
 
-## 📖 Usage Guide
+4. **Managing Transactions**
+   - Go to "Transactions" menu
+   - Click "Add Transaction" button
+   - Fill in: Type (Income/Expense), Category, Description, Amount, Date
+   - Click "Save" to add transaction
+   - Click "Edit" on any transaction to modify
+   - Click "Delete" to remove transaction
+   - All changes sync to database immediately
 
-### First Time Setup
+5. **Profile Management**
+   - Go to "Profile" section
+   - Update name, email, or password
+   - Changes are saved to database
 
-1. **Register a new account**
-   - Web: Go to http://localhost:8080/register
-   - Desktop: Click "Register" button on login screen
+### Desktop Application Usage
 
-2. **Fill in your details**
-   - Full Name
-   - Email
-   - Password (minimum 6 characters)
+1. **Launch Application**
+   - Double-click `Launch-Desktop-App.bat` launcher
+   - Or from NetBeans: Right-click `DesktopApplication.java` → Run File
+   - Wait for Spring Boot to initialize (5-6 seconds)
+   - Login window appears with purple gradient theme
+
+2. **Registration**
+   - Click "Register" button on login screen
+   - Fill in name, email, and password
+   - Submit to create account
+   - Automatically returns to login
 
 3. **Login**
-   - Use your registered email and password
+   - Enter email and password
+   - Click "Login" to access main application
 
-### Managing Transactions
+4. **Dashboard Tab**
+   - View animated summary cards (Income, Expenses, Balance)
+   - See JFreeChart pie charts for category breakdown
+   - Real-time data from database
 
-#### Web Interface:
-1. Go to **Transactions** menu
-2. Click **Add Transaction**
-3. Fill in:
-   - Type: Income or Expense
-   - Category: e.g., Salary, Food, Transportation
-   - Description: Transaction details
-   - Amount: PHP amount
-   - Date: Transaction date
-4. Click **Add Transaction**
+5. **Transactions Tab**
+   - View all transactions in table format
+   - Click "Add Transaction" button to create new entry
+   - Double-click any row to edit transaction
+   - Select row and click "Delete" to remove
+   - Click "Receipt" to generate PDF receipt for selected transaction
+   - Table auto-refreshes after each operation
 
-#### Desktop Interface:
-1. Click on **Transactions** tab
-2. Click **Add Transaction** button
-3. Fill in the same fields
-4. Click **Save**
+6. **Profile Tab**
+   - View and update account information
+   - Change password securely
+   - Updates sync to database
 
-### Viewing Dashboard
+## Components Explained
 
-- **Web**: Displays pie charts for expenses and income by category
-- **Desktop**: Shows JFreeChart visualizations and summary cards
+### Backend Components
 
-### Updating Profile
+**Spring Boot Framework**
+- Main application container and dependency injection
+- Auto-configuration for database, security, and web
+- Embedded Tomcat server for web interface
+- ApplicationContext shared between web and desktop modes
 
-1. Go to **Profile** section
-2. Update:
-   - Name
-   - Email
-   - Password (requires current password)
-3. Click **Update Profile** or **Change Password**
+**Hibernate ORM**
+- Object-Relational Mapping for database operations
+- Automatic table creation and schema updates
+- Entity management for User and Transaction models
+- Transaction management and rollback support
 
----
+**Spring Security**
+- BCrypt password hashing (12 rounds)
+- Authentication and authorization
+- Session management
+- CSRF protection (configurable)
 
-## 🔒 Security Features
+**SQLite Database**
+- File-based database (financial_management.mv.db)
+- No server required, embedded in application
+- Single database file shared by web and desktop
+- ACID compliant transactions
 
-- ✅ **BCrypt password hashing** (12-round salt)
-- ✅ **Spring Security** for web authentication
-- ✅ **Session management**
-- ✅ **CSRF protection** (can be enabled in production)
-- ✅ **SQL injection prevention** (JPA/Hibernate)
+**Spring Data JPA**
+- Repository pattern for data access
+- Automatic query generation from method names
+- Custom query support with @Query annotation
+- Pagination and sorting capabilities
 
----
+### Frontend Components
 
-## 📊 Database Schema
+**Web Interface (Thymeleaf)**
+- Server-side templating engine
+- Dynamic HTML generation with Spring integration
+- Form binding and validation
+- Secure by default (XSS protection)
 
-### Users Table
-```sql
-CREATE TABLE users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  email TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL,
-  profile_picture TEXT
-);
+**Chart.js**
+- JavaScript charting library for web dashboard
+- Pie charts for income/expense visualization
+- Responsive and interactive charts
+- Color-coded by transaction type
+
+**Bootstrap CSS**
+- Responsive grid layout
+- Pre-styled components (buttons, forms, cards)
+- Mobile-friendly design
+- Custom CSS overrides in style.css
+
+**Desktop Interface (Swing)**
+- Java GUI toolkit for desktop application
+- NetBeans GUI Builder for visual design (.form files)
+- Event-driven programming model
+- Native look and feel
+
+**JFreeChart**
+- Java charting library for desktop dashboard
+- 3D pie charts for category visualization
+- Professional chart rendering
+- Export capabilities
+
+**iText PDF**
+- PDF generation for transaction receipts
+- Programmatic document creation
+- Table formatting and styling
+- File system integration
+
+## Project Architecture Flow
+
+### Application Startup Flow
+
+**Web Mode:**
+```
+User runs: mvn spring-boot:run
+→ FinancialManagementApplication.main() executes
+→ Spring Boot auto-configuration starts
+→ Database connection established (SQLite)
+→ Hibernate creates/updates tables
+→ Security configuration applied
+→ Embedded Tomcat starts on port 8080
+→ Web controllers registered
+→ Application ready for HTTP requests
 ```
 
-### Transactions Table
-```sql
-CREATE TABLE transactions (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id INTEGER NOT NULL,
-  type TEXT NOT NULL,
-  category TEXT,
-  description TEXT,
-  amount REAL,
-  date TEXT,
-  FOREIGN KEY(user_id) REFERENCES users(id)
-);
+**Desktop Mode:**
+```
+User runs: .\start-desktop-gui.bat
+→ DesktopApplication.main() executes
+→ Spring Boot ApplicationContext initialized
+→ Database connection established (same SQLite file)
+→ Services and repositories loaded
+→ SpringContextUtil stores context
+→ LoginFrame Swing window created
+→ Event listeners attached
+→ GUI displayed to user
 ```
 
----
+### Database Flow
 
-## 🎨 Customization
+**Entity Relationship:**
+```
+User (1) ----< has many >---- (N) Transaction
 
-### Change Web Port
-Edit `src/main/resources/application.properties`:
-```properties
-server.port=8081
+User Table:
+- id (Primary Key)
+- name
+- email (Unique)
+- password (BCrypt hashed)
+- profile_picture
+
+Transaction Table:
+- id (Primary Key)
+- user_id (Foreign Key → User.id)
+- type (Income/Expense)
+- category
+- description
+- amount
+- date
 ```
 
-### Change Database Location
-Edit `src/main/resources/application.properties`:
-```properties
-spring.datasource.url=jdbc:sqlite:C:/path/to/custom/location/financial.db
+**Data Access Pattern:**
+```
+Controller/UI → Service Layer → Repository → Hibernate → SQLite Database
+
+Example Transaction Creation:
+1. User submits form (web) or clicks Save (desktop)
+2. Controller/Panel calls TransactionService.saveTransaction()
+3. Service validates data and calls TransactionRepository.save()
+4. Repository uses Hibernate to generate SQL INSERT
+5. Hibernate executes: INSERT INTO transactions VALUES (...)
+6. SQLite commits transaction to file
+7. Result returned up the stack
+8. UI updated with new data
 ```
 
-### Modify Colors
-Edit `src/main/resources/static/css/style.css` for web theme colors.
+**Database Operations:**
+- CREATE: repository.save(entity)
+- READ: repository.findById() / findAll() / custom queries
+- UPDATE: repository.save(existingEntity) - Hibernate detects changes
+- DELETE: repository.deleteById(id)
 
----
+### Request/Response Flow
 
-## 🐛 Troubleshooting
-
-### Database Locked Error
-- Close all applications using the database
-- Delete `financial_management.db` and restart
-
-### Port Already in Use (Web)
-```bash
-# Windows
-netstat -ano | findstr :8080
-taskkill /PID <PID> /F
-
-# Change port in application.properties
+**Web Request Flow:**
+```
+Browser → HTTP Request → Tomcat → Spring DispatcherServlet
+→ Controller Method (@GetMapping/@PostMapping)
+→ Service Layer (business logic)
+→ Repository (database access)
+→ Database Query/Update
+→ Response Data
+→ Thymeleaf Template Rendering
+→ HTML Response → Browser Display
 ```
 
-### Desktop App Won't Start
-- Ensure Spring Boot context initializes
-- Check console for error messages
-- Verify JDK version (must be 17+)
-
----
-
-## 📝 JavaDoc Documentation
-
-Generate JavaDoc:
-```bash
-mvn javadoc:javadoc
+**Desktop Event Flow:**
+```
+User Action (button click) → ActionListener.actionPerformed()
+→ UI Panel method (e.g., addButtonActionPerformed())
+→ Service Layer (via SpringContextUtil.getBean())
+→ Repository (database access)
+→ Database Query/Update
+→ Result returned
+→ UI Update (table refresh, dialog display)
+→ User sees changes
 ```
 
-View at: `target/site/apidocs/index.html`
+### Authentication Flow
 
----
+**Web:**
+```
+1. User submits login form → POST /login
+2. Spring Security intercepts request
+3. CustomUserDetailsService.loadUserByUsername() called
+4. User fetched from database via UserRepository
+5. Password verified with BCrypt.matches()
+6. Session created and cookie sent
+7. User redirected to /dashboard
+8. Subsequent requests authenticated via session
+```
 
-## 🤝 Contributing
+**Desktop:**
+```
+1. User enters credentials and clicks Login
+2. LoginFrame calls UserService.login()
+3. Service fetches user from database
+4. BCrypt verifies password hash
+5. If valid, LoginFrame closes
+6. MainFrame opens with user context
+7. User object passed to all panels
+8. Panels use user.id for data filtering
+```
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Development Tools
 
----
+### VS Code
+- **Primary code editor** for Java source files
+- Extensions used:
+  - Java Extension Pack (IntelliSense, debugging)
+  - Spring Boot Extension Pack
+  - Maven for Java
+- Used for:
+  - Writing controller, service, repository classes
+  - Configuration files (application.properties)
+  - HTML templates (Thymeleaf)
+  - CSS styling
+  - Git version control
+  - Terminal for Maven commands
 
-## 📄 License
+### NetBeans
+- **GUI Builder and Desktop Development**
+- Used for:
+  - Creating Swing .form files (visual GUI designer)
+  - Drag-and-drop UI component placement
+  - Property editing for Swing components
+  - Auto-generated GUI code (between //GEN-BEGIN and //GEN-END)
+  - Running desktop application:
+    1. Open project in NetBeans
+    2. Navigate to: `src/main/java/com/isulan/financial/desktop/DesktopApplication.java`
+    3. Right-click the file → **Run File** (Shift+F6)
+    4. Application starts with Spring Boot initialization
+  - Building project with Maven integration
+  - Managing NetBeans-specific configurations (nbactions.xml)
 
-This project is licensed under the MIT License.
+### Maven
+- **Build tool and dependency management**
+- pom.xml defines:
+  - Project dependencies (Spring Boot, Hibernate, SQLite, iText, JFreeChart)
+  - Build plugins and configuration
+  - Java version (17)
+- Commands:
+  - `mvn clean package` - Build JAR file
+  - `mvn spring-boot:run` - Run web application
+  - `mvn compile` - Compile Java classes
+  - `mvn exec:java` - Run desktop application
 
----
+### Development Workflow
 
-## 👨‍💻 Author
+1. **Project Setup**: Created Maven project structure
+2. **Backend Development** (VS Code):
+   - Created entity classes (User, Transaction)
+   - Implemented repositories with Spring Data JPA
+   - Developed service layer with business logic
+   - Built REST controllers for web interface
+   - Configured Spring Security
 
-**Isulan Development Team**
-- Location: Isulan, Sultan Kudarat, Philippines
-- Year: 2025
+3. **Web Frontend** (VS Code):
+   - Designed Thymeleaf templates
+   - Added Bootstrap styling
+   - Implemented Chart.js visualizations
+   - Created custom CSS
 
----
+4. **Desktop GUI** (NetBeans):
+   - Designed frames/panels with GUI Builder
+   - Created .form files for visual layouts
+   - Added custom code in non-generated sections
+   - Connected UI to Spring services
+   - Implemented event listeners
 
-## 🙏 Acknowledgments
+5. **Testing**:
+   - Web: Browser testing at localhost:8080
+   - Desktop: Run from NetBeans or batch file
+   - Database: Verified with SQLite browser
+   - Both interfaces share same database
 
-- Spring Boot Framework
-- NetBeans IDE
-- JFreeChart Library
-- Chart.js Library
-- SQLite Database
-- iText PDF Library
+6. **Build & Deploy**:
+   - Maven packages everything into single JAR
+   - Batch files for easy launching
+   - Single database file for data portability
 
----
+## Project Structure
+```
+src/main/java/com/isulan/financial/
+├── config/          # Security and initialization
+├── controller/      # Web request handlers
+├── desktop/         # Swing GUI application
+├── model/           # Database entities
+├── repository/      # Data access layer
+└── service/         # Business logic
+```
 
-## 📞 Support
+## Distribution
 
-For questions or issues:
-- Check the troubleshooting section
-- Review JavaDoc documentation
-- Open an issue on GitHub
+### Desktop Application
+The desktop app is packaged as a standalone executable JAR:
+- **File**: `target\financial-management-1.0.0-desktop.jar`
+- **Size**: ~60MB (includes all dependencies)
+- **Requirements**: Java 17+ installed on target machine
+- **Database**: Creates `financial_management.mv.db` in the same directory
 
----
+**To distribute:**
+1. Build: `mvn clean package -DskipTests`
+2. Copy `financial-management-1.0.0-desktop.jar` to target machine
+3. Run with: `java -jar financial-management-1.0.0-desktop.jar`
+4. Or use the provided `run-desktop-app.bat` launcher
 
-**Built with ❤️ for the people of Isulan, Sultan Kudarat**
+### Web Application
+The web app is packaged as a standalone executable JAR:
+- **File**: `target\financial-management-1.0.0-web.jar`
+- **Size**: ~60MB (includes all dependencies + embedded Tomcat)
+- **Requirements**: Java 17+ installed on server
+- **Database**: Creates `financial_management.mv.db` in the same directory
+
+**To deploy:**
+1. Build: `mvn clean package -DskipTests`
+2. Copy `financial-management-1.0.0-web.jar` to server
+3. Run with: `java -jar financial-management-1.0.0-web.jar`
+4. Access at: http://server-ip:8080
+
+**Note**: Both JAR files are fully self-contained with all dependencies bundled inside.
+
+## License
+MIT

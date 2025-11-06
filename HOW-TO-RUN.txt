@@ -1,0 +1,94 @@
+================================================
+  HOW TO RUN THE APPLICATIONS
+================================================
+
+DESKTOP APPLICATION
+===================
+
+METHOD 1: EASIEST - USE THE LAUNCHER ⭐
+=====================================
+1. Double-click: Launch-Desktop-App.bat
+2. Wait 5-10 seconds
+3. Login window will appear automatically
+
+METHOD 2: SILENT LAUNCHER (NO CONSOLE)
+=======================================
+1. Double-click: FinancialManagement-Desktop.vbs
+2. No console window will appear
+3. Login window appears after ~7 seconds
+
+METHOD 3: DOUBLE-CLICK THE JAR FILE
+====================================
+1. Go to the "target" folder
+2. Double-click: financial-management-1.0.0-desktop.jar
+3. If it doesn't work, try Method 1 instead
+
+METHOD 4: COMMAND LINE
+======================
+Open PowerShell and run:
+   java -jar target\financial-management-1.0.0-desktop.jar
+   (with console window)
+
+Or for no console:
+   javaw -jar target\financial-management-1.0.0-desktop.jar
+
+WEB APPLICATION
+===============
+
+METHOD 1: USE THE LAUNCHER ⭐
+==============================
+1. Double-click: run-web-app.bat
+2. Wait for "Started application" message
+3. Open browser to: http://localhost:8080
+
+METHOD 2: COMMAND LINE
+======================
+   java -jar target\financial-management-1.0.0-web.jar
+   Then go to: http://localhost:8080
+
+METHOD 3: MAVEN (FROM SOURCE)
+==============================
+   mvn spring-boot:run
+   Then go to: http://localhost:8080
+
+REQUIREMENTS
+============
+- Java 17 or higher installed
+- Check version: java -version
+- Download from: https://adoptium.net/
+
+FIRST TIME SETUP
+================
+1. Build the JAR files (one time only):
+   mvn clean package -DskipTests
+
+2. This creates:
+   - target\financial-management-1.0.0-desktop.jar
+   - target\financial-management-1.0.0-web.jar
+
+3. Use the launchers above to run
+
+STARTUP TIME
+============
+- Desktop app: 7-10 seconds (Spring Boot initialization)
+- Web app: 5-8 seconds
+- This is normal! Wait for the window/message
+
+DEFAULT LOGIN
+=============
+The app starts with an empty database.
+Register a new account on first use:
+- Desktop: Click "Register" button on login screen
+- Web: Click "Register" link at http://localhost:8080
+
+TROUBLESHOOTING
+===============
+If nothing happens:
+1. Check Java is installed: java -version
+2. Make sure JAR files exist in "target" folder
+3. If missing, rebuild: mvn clean package -DskipTests
+4. Try the .bat launcher files
+
+For more help, see: README.md
+
+================================================

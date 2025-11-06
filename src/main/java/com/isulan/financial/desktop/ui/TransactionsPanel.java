@@ -4,140 +4,225 @@ import com.isulan.financial.desktop.util.SpringContextUtil;
 import com.isulan.financial.model.Transaction;
 import com.isulan.financial.model.User;
 import com.isulan.financial.service.TransactionService;
+import com.isulan.financial.service.ReceiptService;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.Desktop;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/**
- * Transactions Panel for Desktop Application
- * Manages income and expense transactions
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
 public class TransactionsPanel extends JPanel {
 
     private MainFrame mainFrame;
-    private JTable transactionsTable;
     private DefaultTableModel tableModel;
-    private JButton addButton;
-    private JButton editButton;
-    private JButton deleteButton;
     private JButton refreshButton;
 
-    /**
-     * Constructor - Creates the transactions panel
-     * 
-     * @param mainFrame Reference to main frame
-     */
+    
     public TransactionsPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         initComponents();
+        this.tableModel = (DefaultTableModel) transactionTable.getModel();
+        transactionTable.getColumnModel().getColumn(0).setMinWidth(0);
+        transactionTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        transactionTable.getColumnModel().getColumn(0).setWidth(0);
+        addButton.addActionListener(e -> showAddTransactionDialog());
+        editButton.addActionListener(e -> showEditTransactionDialog());
+        deleteButton.addActionListener(e -> deleteTransaction());
+        receiptButton.addActionListener(e -> generateReceipt());
+        transactionTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    showEditTransactionDialog();
+                }
+            }
+        });
+        
         refreshData();
     }
 
-    /**
-     * Initialize GUI components
-     */
+    
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        setLayout(new BorderLayout(10, 10));
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        setBackground(Color.WHITE);
 
-        // Top panel with title
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.WHITE);
-        
-        JLabel titleLabel = new JLabel("All Transactions");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(new Color(102, 126, 234));
-        topPanel.add(titleLabel, BorderLayout.WEST);
+        titlePanel = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        buttonPanel = new javax.swing.JPanel();
+        addButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        receiptButton = new javax.swing.JButton();
+        scrollPane = new javax.swing.JScrollPane();
+        transactionTable = new javax.swing.JTable();
 
-        add(topPanel, BorderLayout.NORTH);
+        setBackground(new java.awt.Color(240, 242, 245));
 
-        // Table
-        String[] columns = {"ID", "Date", "Type", "Category", "Description", "Amount"};
-        tableModel = new DefaultTableModel(columns, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+        titlePanel.setBackground(new java.awt.Color(240, 242, 245));
+        titlePanel.setOpaque(false);
+
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(102, 126, 234));
+        titleLabel.setText("💳 Transaction Management");
+
+        javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
+        titlePanel.setLayout(titlePanelLayout);
+        titlePanelLayout.setHorizontalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        titlePanelLayout.setVerticalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        buttonPanel.setBackground(new java.awt.Color(240, 242, 245));
+        buttonPanel.setOpaque(true);
+
+        addButton.setBackground(new java.awt.Color(102, 126, 234));
+        addButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        addButton.setForeground(new java.awt.Color(255, 255, 255));
+        addButton.setText("➕ Add");
+        addButton.setOpaque(true);
+        addButton.setBorderPainted(false);
+        addButton.setFocusPainted(false);
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
             }
-        };
-        
-        transactionsTable = new JTable(tableModel);
-        transactionsTable.setFont(new Font("Arial", Font.PLAIN, 12));
-        transactionsTable.setRowHeight(25);
-        transactionsTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
-        transactionsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
-        JScrollPane scrollPane = new JScrollPane(transactionsTable);
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Buttons panel
-        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonsPanel.setBackground(Color.WHITE);
-
-        addButton = createButton("Add Transaction", new Color(102, 126, 234));
-        addButton.addActionListener(e -> showAddTransactionDialog());
-
-        editButton = createButton("Edit Transaction", new Color(108, 117, 125));
-        editButton.addActionListener(e -> showEditTransactionDialog());
-        editButton.setEnabled(false);
-
-        deleteButton = createButton("Delete Transaction", new Color(220, 53, 69));
-        deleteButton.addActionListener(e -> deleteTransaction());
-        deleteButton.setEnabled(false);
-
-        refreshButton = createButton("Refresh", new Color(40, 167, 69));
-        refreshButton.addActionListener(e -> refreshData());
-
-        buttonsPanel.add(addButton);
-        buttonsPanel.add(editButton);
-        buttonsPanel.add(deleteButton);
-        buttonsPanel.add(refreshButton);
-
-        add(buttonsPanel, BorderLayout.SOUTH);
-
-        // Table selection listener
-        transactionsTable.getSelectionModel().addListSelectionListener(e -> {
-            boolean hasSelection = transactionsTable.getSelectedRow() != -1;
-            editButton.setEnabled(hasSelection);
-            deleteButton.setEnabled(hasSelection);
         });
-    }
 
-    /**
-     * Create a styled button
-     * 
-     * @param text Button text
-     * @param color Button color
-     * @return JButton
-     */
+        editButton.setBackground(new java.awt.Color(54, 162, 192));
+        editButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        editButton.setForeground(new java.awt.Color(255, 255, 255));
+        editButton.setText("✏️ Edit");
+        editButton.setOpaque(true);
+        editButton.setBorderPainted(false);
+        editButton.setFocusPainted(false);
+
+        deleteButton.setBackground(new java.awt.Color(220, 59, 83));
+        deleteButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
+        deleteButton.setText("🗑️ Delete");
+        deleteButton.setOpaque(true);
+        deleteButton.setBorderPainted(false);
+        deleteButton.setFocusPainted(false);
+
+        receiptButton.setBackground(new java.awt.Color(153, 102, 255));
+        receiptButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        receiptButton.setForeground(new java.awt.Color(255, 255, 255));
+        receiptButton.setText("🧾 Receipt");
+        receiptButton.setOpaque(true);
+        receiptButton.setBorderPainted(false);
+        receiptButton.setFocusPainted(false);
+        receiptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receiptButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
+        buttonPanel.setLayout(buttonPanelLayout);
+        buttonPanelLayout.setHorizontalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
+                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(receiptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        buttonPanelLayout.setVerticalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(receiptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        transactionTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Date", "Type", "Category", "Description", "Amount"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        transactionTable.setRowHeight(30);
+        transactionTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        scrollPane.setViewportView(transactionTable);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(titlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void receiptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiptButtonActionPerformed
+    }//GEN-LAST:event_receiptButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    
     private JButton createButton(String text, Color color) {
         JButton button = new JButton(text);
         button.setBackground(color);
-        button.setForeground(Color.WHITE);
+        button.setForeground(Color.GREEN);
         button.setFont(new Font("Arial", Font.BOLD, 12));
         button.setFocusPainted(false);
         return button;
     }
 
-    /**
-     * Refresh transactions data
-     */
+    
     public void refreshData() {
         User user = SpringContextUtil.getCurrentUser();
         TransactionService transactionService = SpringContextUtil.getTransactionService();
 
         List<Transaction> transactions = transactionService.getUserTransactions(user);
-
-        // Clear table
         tableModel.setRowCount(0);
-
-        // Add transactions to table
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         for (Transaction transaction : transactions) {
             Object[] row = {
@@ -152,9 +237,7 @@ public class TransactionsPanel extends JPanel {
         }
     }
 
-    /**
-     * Show dialog to add new transaction
-     */
+    
     private void showAddTransactionDialog() {
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Add Transaction", true);
         dialog.setSize(400, 400);
@@ -165,44 +248,32 @@ public class TransactionsPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
-
-        // Type
         gbc.gridx = 0; gbc.gridy = 0;
         panel.add(new JLabel("Type:"), gbc);
         JComboBox<String> typeCombo = new JComboBox<>(new String[]{"INCOME", "EXPENSE"});
         gbc.gridx = 1; gbc.gridy = 0;
         panel.add(typeCombo, gbc);
-
-        // Category
         gbc.gridx = 0; gbc.gridy = 1;
         panel.add(new JLabel("Category:"), gbc);
         JTextField categoryField = new JTextField(20);
         gbc.gridx = 1; gbc.gridy = 1;
         panel.add(categoryField, gbc);
-
-        // Description
         gbc.gridx = 0; gbc.gridy = 2;
         panel.add(new JLabel("Description:"), gbc);
         JTextArea descriptionArea = new JTextArea(3, 20);
         JScrollPane descScrollPane = new JScrollPane(descriptionArea);
         gbc.gridx = 1; gbc.gridy = 2;
         panel.add(descScrollPane, gbc);
-
-        // Amount
         gbc.gridx = 0; gbc.gridy = 3;
         panel.add(new JLabel("Amount:"), gbc);
         JTextField amountField = new JTextField(20);
         gbc.gridx = 1; gbc.gridy = 3;
         panel.add(amountField, gbc);
-
-        // Date
         gbc.gridx = 0; gbc.gridy = 4;
         panel.add(new JLabel("Date (YYYY-MM-DD):"), gbc);
         JTextField dateField = new JTextField(LocalDate.now().toString(), 20);
         gbc.gridx = 1; gbc.gridy = 4;
         panel.add(dateField, gbc);
-
-        // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
@@ -220,7 +291,7 @@ public class TransactionsPanel extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "Transaction added successfully!");
                 dialog.dispose();
                 refreshData();
-                mainFrame.refreshData();
+                mainFrame.refreshAllPanels();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -239,16 +310,12 @@ public class TransactionsPanel extends JPanel {
         dialog.setVisible(true);
     }
 
-    /**
-     * Show dialog to edit selected transaction
-     */
+    
     private void showEditTransactionDialog() {
-        int selectedRow = transactionsTable.getSelectedRow();
+        int selectedRow = transactionTable.getSelectedRow();
         if (selectedRow == -1) return;
 
         Long transactionId = (Long) tableModel.getValueAt(selectedRow, 0);
-        
-        // Get transaction details
         User user = SpringContextUtil.getCurrentUser();
         TransactionService transactionService = SpringContextUtil.getTransactionService();
         Transaction transaction = transactionService.getUserTransactions(user).stream()
@@ -270,45 +337,33 @@ public class TransactionsPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
-
-        // Type
         gbc.gridx = 0; gbc.gridy = 0;
         panel.add(new JLabel("Type:"), gbc);
         JComboBox<String> typeCombo = new JComboBox<>(new String[]{"INCOME", "EXPENSE"});
         typeCombo.setSelectedItem(transaction.getType());
         gbc.gridx = 1; gbc.gridy = 0;
         panel.add(typeCombo, gbc);
-
-        // Category
         gbc.gridx = 0; gbc.gridy = 1;
         panel.add(new JLabel("Category:"), gbc);
         JTextField categoryField = new JTextField(transaction.getCategory(), 20);
         gbc.gridx = 1; gbc.gridy = 1;
         panel.add(categoryField, gbc);
-
-        // Description
         gbc.gridx = 0; gbc.gridy = 2;
         panel.add(new JLabel("Description:"), gbc);
         JTextArea descriptionArea = new JTextArea(transaction.getDescription(), 3, 20);
         JScrollPane descScrollPane = new JScrollPane(descriptionArea);
         gbc.gridx = 1; gbc.gridy = 2;
         panel.add(descScrollPane, gbc);
-
-        // Amount
         gbc.gridx = 0; gbc.gridy = 3;
         panel.add(new JLabel("Amount:"), gbc);
         JTextField amountField = new JTextField(transaction.getAmount().toString(), 20);
         gbc.gridx = 1; gbc.gridy = 3;
         panel.add(amountField, gbc);
-
-        // Date
         gbc.gridx = 0; gbc.gridy = 4;
         panel.add(new JLabel("Date (YYYY-MM-DD):"), gbc);
         JTextField dateField = new JTextField(transaction.getDate().toString(), 20);
         gbc.gridx = 1; gbc.gridy = 4;
         panel.add(dateField, gbc);
-
-        // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
@@ -324,7 +379,7 @@ public class TransactionsPanel extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "Transaction updated successfully!");
                 dialog.dispose();
                 refreshData();
-                mainFrame.refreshData();
+                mainFrame.refreshAllPanels();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -343,11 +398,9 @@ public class TransactionsPanel extends JPanel {
         dialog.setVisible(true);
     }
 
-    /**
-     * Delete selected transaction
-     */
+    
     private void deleteTransaction() {
-        int selectedRow = transactionsTable.getSelectedRow();
+        int selectedRow = transactionTable.getSelectedRow();
         if (selectedRow == -1) return;
 
         int confirm = JOptionPane.showConfirmDialog(this,
@@ -364,10 +417,65 @@ public class TransactionsPanel extends JPanel {
                 
                 JOptionPane.showMessageDialog(this, "Transaction deleted successfully!");
                 refreshData();
-                mainFrame.refreshData();
+                mainFrame.refreshAllPanels();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
+
+    
+    private void generateReceipt() {
+        int selectedRow = transactionTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a transaction first!", "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Long transactionId = (Long) tableModel.getValueAt(selectedRow, 0);
+        
+        try {
+            TransactionService transactionService = SpringContextUtil.getTransactionService();
+            List<Transaction> allTransactions = transactionService.getUserTransactions(SpringContextUtil.getCurrentUser());
+            Transaction transaction = allTransactions.stream()
+                .filter(t -> t.getId().equals(transactionId))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Transaction not found"));
+            
+            User user = SpringContextUtil.getCurrentUser();
+            ReceiptService receiptService = SpringContextUtil.getBean(ReceiptService.class);
+            
+            byte[] pdfBytes = receiptService.generateReceiptPDF(transaction, user);
+            String fileName = "receipt_" + transactionId + ".pdf";
+            java.nio.file.Files.write(java.nio.file.Paths.get(fileName), pdfBytes);
+            
+            JOptionPane.showMessageDialog(this, 
+                "Receipt generated successfully!\nSaved as: " + fileName, 
+                "Success", 
+                JOptionPane.INFORMATION_MESSAGE);
+            try {
+                Desktop desktop = Desktop.getDesktop();
+                desktop.open(new java.io.File(fileName));
+            } catch (Exception e) {
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, 
+                "Error generating receipt: " + ex.getMessage(), 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton editButton;
+    private javax.swing.JButton receiptButton;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JPanel titlePanel;
+    private javax.swing.JTable transactionTable;
+    // End of variables declaration//GEN-END:variables
 }

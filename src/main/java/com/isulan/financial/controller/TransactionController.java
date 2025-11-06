@@ -19,13 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * Controller for transaction management
- * Handles CRUD operations for income and expense transactions
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
 @Controller
 @RequestMapping("/transactions")
 public class TransactionController {
@@ -36,13 +29,7 @@ public class TransactionController {
     @Autowired
     private ReceiptService receiptService;
 
-    /**
-     * Show all transactions for current user
-     * 
-     * @param session HTTP session
-     * @param model Model for view
-     * @return View name
-     */
+    
     @GetMapping
     public String showTransactions(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -58,13 +45,7 @@ public class TransactionController {
         return "transactions";
     }
 
-    /**
-     * Show form to add new transaction
-     * 
-     * @param session HTTP session
-     * @param model Model for view
-     * @return View name
-     */
+    
     @GetMapping("/add")
     public String showAddTransactionForm(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -77,18 +58,7 @@ public class TransactionController {
         return "add-transaction";
     }
 
-    /**
-     * Process adding new transaction
-     * 
-     * @param type Transaction type (INCOME or EXPENSE)
-     * @param category Transaction category
-     * @param description Transaction description
-     * @param amount Transaction amount
-     * @param date Transaction date
-     * @param session HTTP session
-     * @param redirectAttributes Redirect attributes for flash messages
-     * @return Redirect to transactions page
-     */
+    
     @PostMapping("/add")
     public String addTransaction(@RequestParam String type,
                                 @RequestParam String category,
@@ -113,14 +83,7 @@ public class TransactionController {
         return "redirect:/transactions";
     }
 
-    /**
-     * Show form to edit existing transaction
-     * 
-     * @param id Transaction ID
-     * @param session HTTP session
-     * @param model Model for view
-     * @return View name
-     */
+    
     @GetMapping("/edit/{id}")
     public String showEditTransactionForm(@PathVariable Long id, 
                                          HttpSession session, 
@@ -146,18 +109,7 @@ public class TransactionController {
         return "edit-transaction";
     }
 
-    /**
-     * Process updating existing transaction
-     * 
-     * @param id Transaction ID
-     * @param type Transaction type
-     * @param category Transaction category
-     * @param description Transaction description
-     * @param amount Transaction amount
-     * @param date Transaction date
-     * @param redirectAttributes Redirect attributes for flash messages
-     * @return Redirect to transactions page
-     */
+    
     @PostMapping("/edit/{id}")
     public String updateTransaction(@PathVariable Long id,
                                    @RequestParam String type,
@@ -176,13 +128,7 @@ public class TransactionController {
         return "redirect:/transactions";
     }
 
-    /**
-     * Delete a transaction
-     * 
-     * @param id Transaction ID
-     * @param redirectAttributes Redirect attributes for flash messages
-     * @return Redirect to transactions page
-     */
+    
     @PostMapping("/delete/{id}")
     public String deleteTransaction(@PathVariable Long id,
                                    RedirectAttributes redirectAttributes) {
@@ -196,14 +142,7 @@ public class TransactionController {
         return "redirect:/transactions";
     }
 
-    /**
-     * Show receipt for a transaction
-     * 
-     * @param id Transaction ID
-     * @param session HTTP session
-     * @param model Model for view
-     * @return View name
-     */
+    
     @GetMapping("/receipt/{id}")
     public String showReceipt(@PathVariable Long id,
                              HttpSession session,
@@ -223,8 +162,6 @@ public class TransactionController {
         if (transaction == null) {
             return "redirect:/transactions";
         }
-
-        // Generate receipt number
         String receiptNumber = "RCP-" + transaction.getId() + "-" + 
                 System.currentTimeMillis();
 
@@ -236,13 +173,7 @@ public class TransactionController {
         return "receipt";
     }
 
-    /**
-     * Export receipt as PDF
-     * 
-     * @param id Transaction ID
-     * @param session HTTP session
-     * @return PDF file
-     */
+    
     @GetMapping("/receipt/{id}/pdf")
     public ResponseEntity<byte[]> exportReceiptPDF(@PathVariable Long id,
                                                    HttpSession session) {

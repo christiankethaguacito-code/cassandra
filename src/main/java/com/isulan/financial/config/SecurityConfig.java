@@ -12,13 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Spring Security Configuration
- * Configures web security, authentication, and authorization
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -29,21 +22,13 @@ public class SecurityConfig {
     @Autowired
     private CustomAuthenticationSuccessHandler successHandler;
 
-    /**
-     * Password encoder bean using BCrypt
-     * 
-     * @return BCryptPasswordEncoder instance
-     */
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * Authentication provider using custom UserDetailsService
-     * 
-     * @return DaoAuthenticationProvider configured with UserDetailsService and PasswordEncoder
-     */
+    
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -52,13 +37,7 @@ public class SecurityConfig {
         return authProvider;
     }
 
-    /**
-     * Configure HTTP security for the application
-     * 
-     * @param http HttpSecurity object to configure
-     * @return SecurityFilterChain
-     * @throws Exception if configuration fails
-     */
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http

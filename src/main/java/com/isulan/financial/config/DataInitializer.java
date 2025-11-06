@@ -8,16 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-
-/**
- * Data Initializer (Optional)
- * Creates sample data for testing purposes
- * Comment out @Component annotation to disable
- * 
- * @author Isulan Development Team
- * @version 1.0.0
- */
-// @Component  // Uncomment to enable sample data creation
 public class DataInitializer implements CommandLineRunner {
 
     @Autowired
@@ -26,30 +16,21 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     private TransactionService transactionService;
 
-    /**
-     * Initialize sample data on application startup
-     * 
-     * @param args Command line arguments
-     */
+    
     @Override
     public void run(String... args) {
         try {
-            // Check if demo user already exists
             if (userService.findByEmail("demo@isulan.com").isPresent()) {
                 System.out.println("Sample data already exists. Skipping initialization.");
                 return;
             }
 
             System.out.println("Creating sample data...");
-
-            // Create demo user
             User demoUser = userService.registerUser(
                 "Demo User",
                 "demo@isulan.com",
                 "demo123"
             );
-
-            // Add sample income transactions
             transactionService.addTransaction(demoUser, "INCOME", "Salary", 
                 "Monthly salary payment", 25000.00, LocalDate.now().minusDays(30));
             
@@ -58,8 +39,6 @@ public class DataInitializer implements CommandLineRunner {
             
             transactionService.addTransaction(demoUser, "INCOME", "Business", 
                 "Online sales", 5500.00, LocalDate.now().minusDays(10));
-
-            // Add sample expense transactions
             transactionService.addTransaction(demoUser, "EXPENSE", "Food", 
                 "Groceries shopping", 3500.00, LocalDate.now().minusDays(28));
             
